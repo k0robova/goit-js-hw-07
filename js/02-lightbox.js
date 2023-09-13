@@ -8,8 +8,8 @@ function createMarkup(arr) {
   return arr
     .map(
       ({ preview, original, description }) => `<li class="gallery__item">
-  <a class="gallery__link" href=${original}>
-    <img class="gallery__image" src=${preview} alt=${description} />
+  <a class="gallery__link" href='${original}'>
+    <img class="gallery__image" src='${preview}' alt='${description}' />
   </a>
 </li>`
     )
@@ -17,17 +17,9 @@ function createMarkup(arr) {
 }
 
 list.insertAdjacentHTML("beforeend", createMarkup(galleryItems));
-list.addEventListener("click", onClick);
 
-function onClick(event) {
-  event.preventDefault();
-
-  const gallery = new SimpleLightbox(".gallery__item a", {
-    captionType: "attr",
-    captionsData: "alt",
-    captionPosition: "bottom",
-    captionDelay: 250,
-  });
-
-  // console.log(gallery.captionsData);
-}
+const gallery = new SimpleLightbox(".gallery__item a", {
+  captionsData: "alt",
+  captionPosition: "bottom",
+  captionDelay: 250,
+});

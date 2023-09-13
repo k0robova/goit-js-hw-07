@@ -9,12 +9,12 @@ function createMarkup(arr) {
   return arr
     .map(
       ({ preview, original, description }) => `<li class="gallery__item">
-  <a class="gallery__link" href=${original}>
+  <a class="gallery__link" href='${original}'>
     <img
       class="gallery__image"
-      src=${preview}
-      data-source=${original}
-      alt=${description}
+      src='${preview}'
+      data-source='${original}'
+      alt='${description}'
     />
   </a>
 </li>`
@@ -35,23 +35,29 @@ function onClick(event) {
   const product = galleryItems.find(
     ({ source }) => source === currentImage.dataset.source
   );
-  console.log(product);
 
-  const instance = basicLightbox.create(`<img
+  const instance = basicLightbox.create(
+    `<img
       class="gallery__image"
-      src=${product.preview}
-      data-source=${product.original}
-      alt=${product.description}
-    />`);
+      src='${product.preview}'
+      data-source='${product.original}'
+      alt='${product.description}'
+    />`,
+    {
+      onShow: (instance) => {
+        window.addEventListener("keydown", onKeyDownClose);
+      },
+      onClose: (instance) => {
+        window.removeEventListener("keydown", onKeyDownClose);
+      },
+    }
+  );
 
   instance.show();
-  window.addEventListener("keydown", onKeyDownClose);
 
   function onKeyDownClose(event) {
-    console.log(event.code);
     if (event.code === "Escape") {
       instance.close();
-      window.removeEventListener("keydown", onKeyDownClose);
     }
   }
 }
